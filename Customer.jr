@@ -8,18 +8,17 @@ public class Customer {
     private Table preferredTable;
     private boolean running;
     private int id;
+    private int numDrinks;
     
     private cap void(cap void(Container), Pub.Drink) order;
     
     public Customer(cap void(cap void(Container), Pub.Drink) order) {
+        Random random = new Random();
         this.order = order;
-        int rand = new Random().nextInt(2);
-        switch(rand) {
-            case 0: this.preferredDrink = Pub.Drink.BEER; break;
-            case 1: this.preferredDrink = Pub.Drink.CAPPUCCINO; break;
-            default: this.preferredDrink = Pub.Drink.CHOCOLATE;
-        }
+        int rand = random.nextInt(Pub.Drink.values().length);
+        this.preferredDrink = Pub.Drink.values()[rand];
         this.running = true;
+        this.numDrinks = random.nextInt(10);
         this.id = ++Customer.counter;
     }
     
@@ -46,9 +45,16 @@ public class Customer {
         
         /*
         while (this.running) {
-            inni void () {
-                
-            }
+            //  Drink is finished
+            //      If numDrinks > 0
+            //         Order preferred drink
+            //         numDrinks--
+            //         Drink
+            //         Put down glass/cup on table (wait until possible)
+            //  Last orders
+            //      If numDrinks > 0
+            //         Finish drink instantly
+            //         numDrinks = 1
         }*/
     }
     
