@@ -5,12 +5,35 @@ public abstract class ServicePerson {
     protected Container makeDrink(Pub.Drink type) {
         if (type == Pub.Drink.BEER) {
              Glass glass = this.getCupboard().getGlassAllocator().allocate();
+             Ingredient beerTap = this.getServingArea().getBeerTapAllocator().allocate();
+             glass.fill(type);
+             send this.getServingArea().getBeerTapAllocator().release(beerTap);
              return glass;
         } else if (type == Pub.Drink.CAPPUCCINO) {
+             // Grab cup
              Cup cup = this.getCupboard().getCupAllocator().allocate();
+             // Grab coffee
+             Ingredient coffee = this.getCupboard().getCoffeeAllocator().allocate();
+             send this.getCupboard().getCoffeeAllocator().release(coffee);
+             // Grab milk
+             Ingredient milk = this.getCupboard().getMilkAllocator().allocate();
+             send this.getCupboard().getMilkAllocator().release(milk);
+             // TODO: Mix it!
+             // Fill the cup
+             cup.fill(type);
              return cup;
         } else {
-             Cup cup = this.getCupboard().getCupAllocator().allocate();
+            // Grab cup
+            Cup cup = this.getCupboard().getCupAllocator().allocate();
+            // Grab coco
+            Ingredient coco = this.getCupboard().getChocolateAllocator().allocate();
+            send this.getCupboard().getChocolateAllocator().release(coco);
+            // Grab milk
+            Ingredient milk = this.getCupboard().getMilkAllocator().allocate();
+            send this.getCupboard().getMilkAllocator().release(milk);
+            // TODO: Mix it!
+            // Fill the cup
+            cup.fill(type);
              return cup;
         }
     }

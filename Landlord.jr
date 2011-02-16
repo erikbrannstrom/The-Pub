@@ -23,12 +23,12 @@ public class Landlord extends ServicePerson {
         ServingArea servingArea = this.pub.getServingArea(); 
         while (this.running) {
             inni void closingTime() {
-                System.out.println("Landlord: Get OUT!! Barmaid GO HOME!!");
+                System.out.println("Landlord: Time to go home, fellas!");
                 send this.pub.getBarmaid().leave();
                 send this.clock.shutdown();
             } 
             [] void lastCall() {
-                System.out.println("Landlord: last call!!");
+                System.out.println("Landlord: Last call!");
             }
             [] void servingArea.order(cap void(Container) customer, Pub.Drink type) {
                 System.out.println("Landlord: Received order of " + type + ". On it!");
