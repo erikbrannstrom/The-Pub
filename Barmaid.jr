@@ -25,8 +25,9 @@ public class Barmaid extends ServicePerson {
             }
         }
     }
-    
-    protected Cupboard getCupboard() {
-        return this.servingArea.getCupboard();
+
+    protected ServingArea getServingArea() {
+        return this.servingArea;
     }
+
 }

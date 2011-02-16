@@ -1,4 +1,20 @@
+import edu.ucdavis.jr.*;
 
-public abstract class Container {
+public class Container {
+    private boolean inUse;
+    private Pub.Drink type;
+    
+    public Container() {
+        this.inUse = false;
+    }
+    
+    public void fill(Pub.Drink type) {
+        this.type = type;
+        this.inUse = true;
+    }
+    
+    public Pub.Drink getType() {
+        return this.type;
+    }
     
 }

@@ -37,8 +37,9 @@ public class Landlord extends ServicePerson {
             }
         }
     }
-    
-    protected Cupboard getCupboard() {
-        return this.pub.getServingArea().getCupboard();
+
+    protected ServingArea getServingArea() {
+        return this.pub.getServingArea();
     }
+
 }

@@ -1,14 +1,18 @@
 import edu.ucdavis.jr.*;
 
 public class ServingArea {
-    private BeerTap beerTap;
+    private ResourceAllocator<Ingredient> beerTap;
     private Cupboard cupboard;
     
     public op void order(cap void(Container), Pub.Drink drink);
     
     public ServingArea() {
-        this.beerTap = new BeerTap();
+        this.beerTap = new ResourceAllocator<Ingredient>(new Ingredient());
         this.cupboard = new Cupboard();
+    }
+    
+    public ResourceAllocator<Ingredient> getBeerTapAllocator() {
+        return this.beerTap;
     }
     
     public Cupboard getCupboard() {

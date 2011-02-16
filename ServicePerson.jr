@@ -15,5 +15,10 @@ public abstract class ServicePerson {
         }
     }
     
-    protected abstract Cupboard getCupboard();
+    protected Cupboard getCupboard() {
+        return this.getServingArea().getCupboard();
+    }
+    
+    protected abstract ServingArea getServingArea();
+    
 }
