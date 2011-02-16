@@ -1,0 +1,19 @@
+import edu.ucdavis.jr.*;
+import java.util.*;
+
+public class Assistant {
+    
+    private boolean running;
+    private ServingArea servingArea;
+    private List<Table> tables;
+    
+    public Assistant(ServingArea servingArea, List<Table> tables) {
+        this.running = true;
+        this.servingArea = servingArea;
+        this.tables = tables;
+    }
+    
+    public process run {
+        
+    }
+}

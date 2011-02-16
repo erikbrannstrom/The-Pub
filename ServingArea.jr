@@ -1,0 +1,17 @@
+import edu.ucdavis.jr.*;
+
+public class ServingArea {
+    private BeerTap beerTap;
+    private Cupboard cupboard;
+    
+    public op void order(cap void(Container), Pub.Drink drink);
+    
+    public ServingArea() {
+        this.beerTap = new BeerTap();
+        this.cupboard = new Cupboard();
+    }
+    
+    public Cupboard getCupboard() {
+        return this.cupboard;
+    }
+}

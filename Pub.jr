@@ -1,0 +1,50 @@
+import edu.ucdavis.jr.*;
+import java.util.*;
+
+public class Pub {
+    
+    public static enum Drink {
+        BEER, CAPPUCCINO, CHOCOLATE
+    }
+    
+    private Assistant assistant;
+    private Barmaid barmaid;
+    private List<Customer> customers;
+    private Landlord landlord;
+    private ServingArea servingArea;
+    private List<Table> tables;
+
+    public static void main(String[] args) {
+        new Pub();
+    }
+    
+    public Pub() {
+        System.out.println("Hello Pub!");
+        this.tables = new Vector<Table>();
+        this.servingArea = new ServingArea();
+        this.assistant = new Assistant(this.servingArea, this.tables);
+        this.barmaid = new Barmaid(this.servingArea);
+        this.landlord = new Landlord(this, new MyTime(2, 0, 0), new MyTime(1, 50, 0));
+    }
+    
+    public process run {
+        new Customer(this.servingArea.order);
+        JR.nap(100);
+        new Customer(this.servingArea.order);
+        JR.nap(100);
+        new Customer(this.servingArea.order);
+    }
+    
+    public Assistant getAssistant() {
+        return this.assistant;
+    }
+    
+    public Barmaid getBarmaid() {
+        return this.barmaid;
+    }
+    
+    public ServingArea getServingArea() {
+        return this.servingArea;
+    }
+    
+}

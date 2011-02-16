@@ -1,0 +1,55 @@
+import edu.ucdavis.jr.*;
+import java.util.*;
+
+public class Customer {
+    private static int counter = 0;
+    
+    private Pub.Drink preferredDrink;
+    private Table preferredTable;
+    private boolean running;
+    private int id;
+    
+    private cap void(cap void(Container), Pub.Drink) order;
+    
+    public Customer(cap void(cap void(Container), Pub.Drink) order) {
+        this.order = order;
+        int rand = new Random().nextInt(2);
+        switch(rand) {
+            case 0: this.preferredDrink = Pub.Drink.BEER; break;
+            case 1: this.preferredDrink = Pub.Drink.CAPPUCCINO; break;
+            default: this.preferredDrink = Pub.Drink.CHOCOLATE;
+        }
+        this.running = true;
+        this.id = ++Customer.counter;
+    }
+    
+    public process run {
+        // enter pub and say greeting phrase!
+        List<String> greetings = new ArrayList<String>();
+        greetings.add("Good to see you, old chap!");
+        greetings.add("Greetings, friends!");
+        greetings.add("Hello Pub!");
+        System.out.println("Customer " + this.id + ": " + greetings.get(new Random().nextInt(greetings.size())));
+        
+        // order preferred drink
+        Container container;
+        op void getOrder(Container);
+        System.out.println("Customer " + this.id + ": I would like a " + this.preferredDrink + ", please.");
+        send this.order(getOrder, this.preferredDrink);
+        receive getOrder(container);
+        if(container instanceof Glass) {
+            System.out.println("Customer " + this.id + ": Thank you for my glass!");
+        } else {
+            System.out.println("Customer " + this.id + ": Thank you for my cup!");
+        }
+        
+        
+        /*
+        while (this.running) {
+            inni void () {
+                
+            }
+        }*/
+    }
+    
+}

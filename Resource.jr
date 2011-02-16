@@ -1,0 +1,5 @@
+import edu.ucdavis.jr.*;
+
+public abstract class Resource {
+
+}

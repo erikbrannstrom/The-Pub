@@ -1,0 +1,56 @@
+import edu.ucdavis.jr.*;
+import java.util.*;
+
+public class Cupboard {
+    public final int NUM_GLASSES = 10;
+    public final int NUM_CUPS = 5;
+    
+    private ResourceAllocator<Ingredient> chocolate;
+    private ResourceAllocator<Ingredient> coffee;
+    private ResourceAllocator<Ingredient> milk;
+    private ResourceAllocator<Cup> cups;
+    private ResourceAllocator<Glass> glasses;
+    
+    public Cupboard() {
+        // create resource allocators for ingredients
+        this.chocolate = new ResourceAllocator<Ingredient>(new Ingredient());
+        this.coffee = new ResourceAllocator<Ingredient>(new Ingredient());
+        this.milk = new ResourceAllocator<Ingredient>(new Ingredient());
+        
+        // create resource allocator for cups
+        List<Cup> cups = new ArrayList<Cup>();
+        for(int i = 0; i < NUM_CUPS; i++) {
+            cups.add(new Cup());
+        }
+        this.cups = new ResourceAllocator<Cup>(cups);
+        
+        // create resource allocator for glasses
+        List<Glass> glasses = new ArrayList<Glass>();
+        for(int i = 0; i < NUM_GLASSES; i++) {
+            glasses.add(new Glass());
+        }
+        this.glasses = new ResourceAllocator<Glass>(glasses);
+
+    }
+    
+    public ResourceAllocator<Ingredient> getChocolateAllocator() {
+        return this.chocolate;
+    }
+    
+    public ResourceAllocator<Ingredient> getCoffeeAllocator() {
+        return this.coffee;
+    }
+    
+    public ResourceAllocator<Ingredient> getMilkAllocator() {
+        return this.milk;
+    }
+    
+    public ResourceAllocator<Glass> getGlassAllocator() {
+        return this.glasses;
+    }
+    
+    public ResourceAllocator<Cup> getCupAllocator() {
+        return this.cups;
+    }
+    
+}

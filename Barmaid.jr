@@ -1,0 +1,32 @@
+import edu.ucdavis.jr.*;
+
+public class Barmaid extends ServicePerson {
+    
+    private boolean running;
+    private ServingArea servingArea;
+    
+    public op void leave();
+    
+    public Barmaid(ServingArea servingArea) {
+        this.running = true;
+        this.servingArea = servingArea;
+    }
+    
+    public process run {
+        while (this.running) {
+            inni void leave() {
+                System.out.println("Barmaid: Good night, Landlord!");
+                this.running = false;
+            }
+            [] void this.servingArea.order(cap void(Container) customer, Pub.Drink type) {
+                System.out.println("Barmaid: Received order of " + type + ". On it!");
+                Container drink = this.makeDrink(type);
+                send customer(drink);
+            }
+        }
+    }
+    
+    protected Cupboard getCupboard() {
+        return this.servingArea.getCupboard();
+    }
+}

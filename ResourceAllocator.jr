@@ -1,0 +1,41 @@
+import edu.ucdavis.jr.*;
+import java.util.*;
+
+public class ResourceAllocator<E> {
+    
+    public op E allocate();
+    public op void release(E unit);
+    
+    private Queue<E> units;
+    
+    public ResourceAllocator() {
+        this.units = new ArrayDeque<E>();
+    }
+    
+    public ResourceAllocator(E unit) {        
+        this();
+        this.units.add(unit);
+    }
+    
+    public ResourceAllocator(List<E> units) {
+        this.units = new ArrayDeque<E>(units);
+    }
+
+    private process server {
+        while (true) {
+            inni E allocate() {
+                E unit;
+                if (this.units.isEmpty()) {
+                    receive release(unit);
+                } else {
+                    unit = this.units.remove();
+                }
+                return unit;
+            }
+            [] void release(E unit) {
+                units.add(unit);
+            }
+        }
+    }
+
+}

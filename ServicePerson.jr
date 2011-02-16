@@ -1,0 +1,19 @@
+import edu.ucdavis.jr.*;
+
+public abstract class ServicePerson {
+    
+    protected Container makeDrink(Pub.Drink type) {
+        if (type == Pub.Drink.BEER) {
+             Glass glass = this.getCupboard().getGlassAllocator().allocate();
+             return glass;
+        } else if (type == Pub.Drink.CAPPUCCINO) {
+             Cup cup = this.getCupboard().getCupAllocator().allocate();
+             return cup;
+        } else {
+             Cup cup = this.getCupboard().getCupAllocator().allocate();
+             return cup;
+        }
+    }
+    
+    protected abstract Cupboard getCupboard();
+}
