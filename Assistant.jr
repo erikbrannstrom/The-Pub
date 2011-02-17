@@ -27,7 +27,7 @@ public class Assistant {
             } else {
                 this.sweep();
                 System.out.println("Assistant: Time for my break.");
-                JR.nap(15 * 60 * Pub.SIMULATION_SPEED);
+                JR.nap(Pub.ASSISTANT_BREAK);
             }
         }
     }
@@ -39,13 +39,13 @@ public class Assistant {
         List<Container> tmp;
         for (Table table : this.tables) {
             tmp = table.clean();
-            JR.nap(1 * tmp.size() * Pub.SIMULATION_SPEED);
+            JR.nap(Pub.ASSISTANT_HANDLE_CONTAINER * tmp.size());
             this.tray.addAll(tmp);
-            JR.nap(10 * Pub.SIMULATION_SPEED);
+            JR.nap(Pub.ASSISTANT_WALK_BETWEEN_TABLES);
         }
         
         // clean dirty dishes
-        JR.nap(10 * this.tray.size() * Pub.SIMULATION_SPEED);
+        JR.nap(Pub.ASSISTANT_CLEAN_CONTAINER * this.tray.size());
         
         // put back clean dishes
         for (Container container : this.tray) {
@@ -54,7 +54,7 @@ public class Assistant {
             } else if (container instanceof Cup) {
                 this.servingArea.getCupboard().getCupAllocator().release((Cup) container);
             }
-            JR.nap(1 * Pub.SIMULATION_SPEED);
+            JR.nap(Pub.ASSISTANT_HANDLE_CONTAINER);
         }
         System.out.println("Assistant: Collected and washed " + this.tray.size() + " containers");
         this.tray = new ArrayList<Container>();

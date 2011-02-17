@@ -12,6 +12,10 @@ public class Pub {
     public static final int DELAY_INGREDIENT = 12 * Pub.SIMULATION_SPEED;
     public static final int DELAY_MIX = 30 * Pub.SIMULATION_SPEED;
     public static final int TABLE_SIZE = 5;
+    public static final int ASSISTANT_BREAK = 15 * 60 * Pub.SIMULATION_SPEED;
+    public static final int ASSISTANT_HANDLE_CONTAINER = 1 * Pub.SIMULATION_SPEED;
+    public static final int ASSISTANT_CLEAN_CONTAINER = 10 * Pub.SIMULATION_SPEED;
+    public static final int ASSISTANT_WALK_BETWEEN_TABLES = 10 * Pub.SIMULATION_SPEED;
     
     public static enum Drink {
         BEER, CAPPUCCINO, CHOCOLATE
