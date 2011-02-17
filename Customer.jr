@@ -9,8 +9,12 @@ public class Customer {
     private boolean running;
     private int id;
     private int numDrinks;
+    private Clock clock;
+    private Container currentDrink;
     
     private cap void(cap void(Container), Pub.Drink) order;
+    public op void lastCall();
+    public op void finishedDrink();
     
     public Customer(cap void(cap void(Container), Pub.Drink) order, Table table) {
         Random random = new Random();
@@ -31,28 +35,47 @@ public class Customer {
         greetings.add("Hello Pub!");
         System.out.println("Customer " + this.id + ": " + greetings.get(new Random().nextInt(greetings.size())));
         
-        // order preferred drink
-        Container container;
+        currentDrink = this.getDrink();
         
         while (this.running) {
-            op void getOrder(Container);
-            System.out.println("Customer " + this.id + ": I would like a " + this.preferredDrink + ", please.");
-            send this.order(getOrder, this.preferredDrink);
-            receive getOrder(container);
-            this.numDrinks--;
-            System.out.println("Customer " + this.id + ": Thank you!");
-            // Drink
-            JR.nap(10*60*Pub.SIMULATION_SPEED);
-            if(this.numDrinks == 0) {
-                this.running = false;
+            inni void finishedDrink() {
+                this.leaveContainer();
+                if(this.numDrinks == 0) {
+                    this.running = false;
+                } else {
+                    this.getDrink();
+                }
             }
-            //  Last orders
-            //      If numDrinks > 0
-            //         Finish drink instantly
-            //         numDrinks = 1
+            [] void lastCall() {
+                if(this.numDrinks > 0) {
+                    this.leaveContainer();
+                    this.numDrinks = 1;
+                    this.getDrink();
+                }
+            }
         }
         
         System.out.println("Customer " + this.id + ": I bid you all adiue!");
+    }
+    
+    private void leaveContainer() {
+        // stop drink timer
+        send this.clock.shutdown();
+        // put down container
+    }
+    
+    private Container getDrink() {
+        Container container;
+        op void getOrder(Container);
+        System.out.println("Customer " + this.id + ": I would like a " + this.preferredDrink + ", please.");
+        send this.order(getOrder, this.preferredDrink);
+        receive getOrder(container);
+        this.numDrinks--;
+        System.out.println("Customer " + this.id + ": Thank you!");
+        // Set timer for drinking
+        this.clock = new Clock(Pub.SIMULATION_SPEED, new MyTime(0, 10, 0));
+        send this.clock.setAlarmEndTime(this.finishedDrink);
+        return container;
     }
     
 }
