@@ -13,14 +13,20 @@ public class Assistant {
         this.tables = tables;
     }
     
-    public process run {
+    /*public process run {
         while (this.running) {
             inni void finalRound() {
                 System.out.print("Assistant: All is quiet. Making my final sweep!");
-                // make final sweep
+                this.round();
                 System.out.print("Assistant: Done for tonight. Time to head home.");
                 this.running = false;
+            } else {
+                // sweep
             }
         }
     }
+    
+    private void round() {
+        
+    }*/
 }

@@ -1,8 +1,8 @@
 import edu.ucdavis.jr.*;
 
-public class Container {
+public abstract class Container {
     
-    /*private boolean inUse;
+    private boolean inUse;
     private Pub.Drink type;
     
     public Container() {
@@ -16,7 +16,7 @@ public class Container {
     
     public Pub.Drink getType() {
         return this.type;
-    }*/
+    }
     
     public abstract int getSize();
     
