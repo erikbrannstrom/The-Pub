@@ -1,5 +1,8 @@
 import edu.ucdavis.jr.*;
 
-public class Table {
+public class Table {    
     
+    public Table() {
+
+    }
 }
