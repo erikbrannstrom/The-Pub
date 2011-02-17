@@ -30,15 +30,16 @@ public class Pub {
     
     public Pub() {
         System.out.println("Pub: Opened");
+        this.tables = new Vector<Table>();
+        for (int i = 0; i < Pub.NUM_TABLES; i++) {
+            tables.add(new Table(Pub.TABLE_SIZE));
+        }
         this.servingArea = new ServingArea();
         this.assistant = new Assistant(this.servingArea, this.tables);
         this.barmaid = new Barmaid(this.servingArea);
         this.landlord = new Landlord(this);
         
-        this.tables = new Vector<Table>();
-        for (int i = 0; i < Pub.NUM_TABLES; i++) {
-            tables.add(new Table(Pub.TABLE_SIZE));
-        }
+        
     }
     
     public process run {

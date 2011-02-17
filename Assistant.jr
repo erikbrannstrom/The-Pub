@@ -6,27 +6,57 @@ public class Assistant {
     private boolean running;
     private ServingArea servingArea;
     private List<Table> tables;
+    private List<Container> tray;
+    
+    public op void finalRound();
     
     public Assistant(ServingArea servingArea, List<Table> tables) {
         this.running = true;
         this.servingArea = servingArea;
         this.tables = tables;
+        this.tray = new ArrayList<Container>();
     }
     
-    /*public process run {
+    public process run {
         while (this.running) {
             inni void finalRound() {
-                System.out.print("Assistant: All is quiet. Making my final sweep!");
-                this.round();
-                System.out.print("Assistant: Done for tonight. Time to head home.");
+                System.out.println("Assistant: All is quiet. Making my final sweep!");
+                this.sweep();
+                System.out.println("Assistant: Done for tonight. Time to head home.");
                 this.running = false;
             } else {
-                // sweep
+                this.sweep();
+                System.out.println("Assistant: Time for my break.");
+                JR.nap(15 * 60 * Pub.SIMULATION_SPEED);
             }
         }
     }
     
-    private void round() {
+    private void sweep() {
+        System.out.println("Assistant: Time for my sweep.");
         
-    }*/
+        // put dirty dish on tray
+        List<Container> tmp;
+        for (Table table : this.tables) {
+            tmp = table.clean();
+            JR.nap(1 * tmp.size() * Pub.SIMULATION_SPEED);
+            this.tray.addAll(tmp);
+            JR.nap(10 * Pub.SIMULATION_SPEED);
+        }
+        
+        // clean dirty dishes
+        JR.nap(10 * this.tray.size() * Pub.SIMULATION_SPEED);
+        
+        // put back clean dishes
+        for (Container container : this.tray) {
+            if (container instanceof Glass) {
+                this.servingArea.getCupboard().getGlassAllocator().release((Glass) container);
+            } else if (container instanceof Cup) {
+                this.servingArea.getCupboard().getCupAllocator().release((Cup) container);
+            }
+            JR.nap(1 * Pub.SIMULATION_SPEED);
+        }
+        System.out.println("Assistant: Collected and washed " + this.tray.size() + " containers");
+        this.tray = new ArrayList<Container>();
+    }
 }
