@@ -5,12 +5,13 @@ public class Pub {
     public static final int SIMULATION_SPEED = 10;
     public static final int NUM_CUPS = 15;
     public static final int NUM_GLASSES = 20;
-    public static final int NUM_TABLES = 1;
+    public static final int NUM_TABLES = 2;
     public static final MyTime TIME_OPEN = new MyTime(2, 0, 0);
     public static final MyTime TIME_LAST_CALL = new MyTime(1, 50, 0);
     public static final int DELAY_CONTAINER = 5 * Pub.SIMULATION_SPEED;
     public static final int DELAY_INGREDIENT = 12 * Pub.SIMULATION_SPEED;
     public static final int DELAY_MIX = 30 * Pub.SIMULATION_SPEED;
+    public static final int TABLE_SIZE = 5;
     
     public static enum Drink {
         BEER, CAPPUCCINO, CHOCOLATE
@@ -36,7 +37,7 @@ public class Pub {
         
         this.tables = new Vector<Table>();
         for (int i = 0; i < Pub.NUM_TABLES; i++) {
-            tables.add(new Table());
+            tables.add(new Table(Pub.TABLE_SIZE));
         }
     }
     
