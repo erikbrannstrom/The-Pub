@@ -3,40 +3,41 @@ import java.util.*;
 
 public class Table {    
     
-    private int spaceUnits;
     private List<Container> containers;
+    private int remainingSpaceUnits;
+    private int spaceUnits;
     private List<cap void()> waitingCustomers;
     
     public op boolean putDown(Container container);
     public op List<Container> clean();
     
-    public Table() {
+    public Table(int spaceUnits) {
         this.containers = new ArrayList<Container>();
+        this.remainingSpaceUnits = spaceUnits; 
+        this.spaceUnits = spaceUnits;
         this.waitingCustomers = new ArrayList<cap void()>();
     }
     
     private process server { 
         while (true) {
             inni boolean putDown(cap void() customer, Container container) {
-                if (this.spaceUnits < container.getSize()) {
+                if (this.remainingSpaceUnits < container.getSize()) {
                     waitingCustomers.add(customer);
-                    // signal assistant
                     return false;
                 } else {
-                    this.spaceUnits -= n;
+                    this.remainingSpaceUnits -= n;
                     this.containers.add(container);
                     return true;
                 }
             }
             [] List<Container> clean() {
-                spaceUnits = Table.getSize();
+                this.remainingSpaceUnits = this.spaceUnits;
                 List<Container> tmp = this.containers;
                 this.containers = new ArrayList<Container>();
                 for (cap void() customer : this.waitingCustomers) {
                     send customer;
                 }
                 return tmp;
-                
             }
         }
     }

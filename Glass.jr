@@ -1,5 +1,7 @@
 import edu.ucdavis.jr.*;
 
 public class Glass extends Container {
-    
+    public int getSize() {
+        return 1;
+    }
 }
