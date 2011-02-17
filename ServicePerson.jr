@@ -5,36 +5,44 @@ public abstract class ServicePerson {
     protected Container makeDrink(Pub.Drink type) {
         if (type == Pub.Drink.BEER) {
              Glass glass = this.getCupboard().getGlassAllocator().allocate();
+             JR.nap(Pub.DELAY_CONTAINER);
              Ingredient beerTap = this.getServingArea().getBeerTapAllocator().allocate();
+             JR.nap(Pub.DELAY_INGREDIENT);
              glass.fill(type);
              send this.getServingArea().getBeerTapAllocator().release(beerTap);
              return glass;
         } else if (type == Pub.Drink.CAPPUCCINO) {
              // Grab cup
              Cup cup = this.getCupboard().getCupAllocator().allocate();
+             JR.nap(Pub.DELAY_CONTAINER);
              // Grab coffee
              Ingredient coffee = this.getCupboard().getCoffeeAllocator().allocate();
+             JR.nap(Pub.DELAY_INGREDIENT);
              send this.getCupboard().getCoffeeAllocator().release(coffee);
              // Grab milk
              Ingredient milk = this.getCupboard().getMilkAllocator().allocate();
+             JR.nap(Pub.DELAY_INGREDIENT);
              send this.getCupboard().getMilkAllocator().release(milk);
-             // TODO: Mix it!
              // Fill the cup
+             JR.nap(Pub.DELAY_MIX);
              cup.fill(type);
              return cup;
         } else {
             // Grab cup
             Cup cup = this.getCupboard().getCupAllocator().allocate();
+            JR.nap(Pub.DELAY_CONTAINER);
             // Grab coco
             Ingredient coco = this.getCupboard().getChocolateAllocator().allocate();
+            JR.nap(Pub.DELAY_INGREDIENT);
             send this.getCupboard().getChocolateAllocator().release(coco);
             // Grab milk
             Ingredient milk = this.getCupboard().getMilkAllocator().allocate();
+            JR.nap(Pub.DELAY_INGREDIENT);
             send this.getCupboard().getMilkAllocator().release(milk);
-            // TODO: Mix it!
             // Fill the cup
+            JR.nap(Pub.DELAY_MIX);
             cup.fill(type);
-             return cup;
+            return cup;
         }
     }
     

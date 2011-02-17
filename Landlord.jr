@@ -9,14 +9,14 @@ public class Landlord extends ServicePerson {
     private op void closingTime();
     private op void lastCall();
     
-    public Landlord(Pub pub, MyTime closingTime, MyTime lastCall) {
-        this.clock = new Clock(1, closingTime);
+    public Landlord(Pub pub) {
+        this.clock = new Clock(Pub.SIMULATION_SPEED, Pub.TIME_OPEN);
         this.pub = pub;
         this.running = true;
         
         // set alarms
         send this.clock.setAlarmEndTime(this.closingTime);
-        send this.clock.setAlarm(this.lastCall, lastCall);
+        send this.clock.setAlarm(this.lastCall, Pub.TIME_LAST_CALL);
     }
     
     public process run {
