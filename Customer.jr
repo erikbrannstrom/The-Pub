@@ -12,13 +12,14 @@ public class Customer {
     
     private cap void(cap void(Container), Pub.Drink) order;
     
-    public Customer(cap void(cap void(Container), Pub.Drink) order) {
+    public Customer(cap void(cap void(Container), Pub.Drink) order, Table table) {
         Random random = new Random();
         this.order = order;
         int rand = random.nextInt(Pub.Drink.values().length);
         this.preferredDrink = Pub.Drink.values()[rand];
         this.running = true;
-        this.numDrinks = random.nextInt(10);
+        this.numDrinks = random.nextInt(6);
+        this.preferredTable = table;
         this.id = ++Customer.counter;
     }
     
@@ -42,8 +43,6 @@ public class Customer {
             System.out.println("Customer " + this.id + ": Thank you for my cup!");
         }
         
-        
-        /*
         while (this.running) {
             //  Drink is finished
             //      If numDrinks > 0
@@ -55,7 +54,7 @@ public class Customer {
             //      If numDrinks > 0
             //         Finish drink instantly
             //         numDrinks = 1
-        }*/
+        }
     }
     
 }
