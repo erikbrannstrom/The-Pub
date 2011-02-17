@@ -15,6 +15,7 @@ public class Customer {
     private cap void(cap void(Container), Pub.Drink) order;
     public op void lastCall();
     public op void finishedDrink();
+    public op void leftDrink();
     
     public Customer(cap void(cap void(Container), Pub.Drink) order, Table table) {
         Random random = new Random();
@@ -62,6 +63,9 @@ public class Customer {
         // stop drink timer
         send this.clock.shutdown();
         // put down container
+        if(this.preferredTable.putDown(this.leftDrink, this.currentDrink) == false) {
+            receive this.leftDrink();
+        }
     }
     
     private Container getDrink() {
