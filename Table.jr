@@ -1,8 +1,43 @@
 import edu.ucdavis.jr.*;
+import java.util.*;
 
 public class Table {    
     
+    private int spaceUnits;
+    private List<Container> containers;
+    private List<cap void()> waitingCustomers;
+    
+    public op boolean putDown(Container container);
+    public op List<Container> clean();
+    
     public Table() {
-
+        this.containers = new ArrayList<Container>();
+        this.waitingCustomers = new ArrayList<cap void()>();
+    }
+    
+    private process server { 
+        while (true) {
+            inni boolean putDown(cap void() customer, Container container) {
+                if (this.spaceUnits < container.getSize()) {
+                    waitingCustomers.add(customer);
+                    // signal assistant
+                    return false;
+                } else {
+                    this.spaceUnits -= n;
+                    this.containers.add(container);
+                    return true;
+                }
+            }
+            [] List<Container> clean() {
+                spaceUnits = Table.getSize();
+                List<Container> tmp = this.containers;
+                this.containers = new ArrayList<Container>();
+                for (cap void() customer : this.waitingCustomers) {
+                    send customer;
+                }
+                return tmp;
+                
+            }
+        }
     }
 }
