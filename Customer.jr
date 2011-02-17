@@ -18,7 +18,7 @@ public class Customer {
         int rand = random.nextInt(Pub.Drink.values().length);
         this.preferredDrink = Pub.Drink.values()[rand];
         this.running = true;
-        this.numDrinks = random.nextInt(6);
+        this.numDrinks = 1 + random.nextInt(3);
         this.preferredTable = table;
         this.id = ++Customer.counter;
     }
@@ -33,28 +33,26 @@ public class Customer {
         
         // order preferred drink
         Container container;
-        op void getOrder(Container);
-        System.out.println("Customer " + this.id + ": I would like a " + this.preferredDrink + ", please.");
-        send this.order(getOrder, this.preferredDrink);
-        receive getOrder(container);
-        if(container instanceof Glass) {
-            System.out.println("Customer " + this.id + ": Thank you for my glass!");
-        } else {
-            System.out.println("Customer " + this.id + ": Thank you for my cup!");
-        }
         
         while (this.running) {
-            //  Drink is finished
-            //      If numDrinks > 0
-            //         Order preferred drink
-            //         numDrinks--
-            //         Drink
-            //         Put down glass/cup on table (wait until possible)
+            op void getOrder(Container);
+            System.out.println("Customer " + this.id + ": I would like a " + this.preferredDrink + ", please.");
+            send this.order(getOrder, this.preferredDrink);
+            receive getOrder(container);
+            this.numDrinks--;
+            System.out.println("Customer " + this.id + ": Thank you!");
+            // Drink
+            JR.nap(10*60*Pub.SIMULATION_SPEED);
+            if(this.numDrinks == 0) {
+                this.running = false;
+            }
             //  Last orders
             //      If numDrinks > 0
             //         Finish drink instantly
             //         numDrinks = 1
         }
+        
+        System.out.println("Customer " + this.id + ": I bid you all adiue!");
     }
     
 }

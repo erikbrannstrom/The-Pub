@@ -2,7 +2,7 @@ import edu.ucdavis.jr.*;
 import java.util.*;
 
 public class Pub {
-    public static final int SIMULATION_SPEED = 100;
+    public static final int SIMULATION_SPEED = 10;
     public static final int NUM_CUPS = 15;
     public static final int NUM_GLASSES = 20;
     public static final int NUM_TABLES = 1;
@@ -28,7 +28,7 @@ public class Pub {
     }
     
     public Pub() {
-        System.out.println("Hello Pub!");
+        System.out.println("Pub: Opened");
         this.servingArea = new ServingArea();
         this.assistant = new Assistant(this.servingArea, this.tables);
         this.barmaid = new Barmaid(this.servingArea);
