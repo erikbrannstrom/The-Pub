@@ -13,14 +13,16 @@ public class Customer {
     private Container currentDrink;
     
     private cap void(cap void(Container), Pub.Drink) order;
+    private cap void(Customer) goodbye;
     public op void lastCall();
     public op void finishedDrink();
     public op void leftDrink();
     public op void leave();
     
-    public Customer(cap void(cap void(Container), Pub.Drink) order, Table table) {
+    public Customer(cap void(cap void(Container), Pub.Drink) order, cap void(Customer) goodbye, Table table) {
         Random random = new Random();
         this.order = order;
+        this.goodbye = goodbye;
         int rand = random.nextInt(Pub.Drink.values().length);
         this.preferredDrink = Pub.Drink.values()[rand];
         this.running = true;
@@ -57,6 +59,7 @@ public class Customer {
             }
         }
         
+        send this.goodbye(this);
         System.out.println("Customer " + this.id + ": I bid you all adiue!");
     }
     
