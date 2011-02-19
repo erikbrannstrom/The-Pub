@@ -6,8 +6,6 @@ public class Pub {
     public static final int NUM_CUPS = 15;
     public static final int NUM_GLASSES = 20;
     public static final int NUM_TABLES = 15;
-    public static final MyTime TIME_OPEN = new MyTime(2, 0, 0);
-    public static final MyTime TIME_LAST_CALL = new MyTime(1, 50, 0);
     public static final int DELAY_CONTAINER = 5 * Pub.SIMULATION_SPEED;
     public static final int DELAY_INGREDIENT = 12 * Pub.SIMULATION_SPEED;
     public static final int DELAY_MIX = 30 * Pub.SIMULATION_SPEED;
@@ -18,7 +16,8 @@ public class Pub {
     public static final int ASSISTANT_WALK_BETWEEN_TABLES = 10 * Pub.SIMULATION_SPEED;
     public static final int CUSTOMER_MIN_TIME_UNTIL_NEW_ARRIVAL = 5 * 60 * Pub.SIMULATION_SPEED;
     public static final int CUSTOMER_MAX_TIME_UNTIL_NEW_ARRIVAL = 50 * 60 * Pub.SIMULATION_SPEED;
-
+    public static final MyTime TIME_OPEN = new MyTime(2, 0, 0);
+    public static final MyTime TIME_LAST_CALL = new MyTime(1, 50, 0);
     
     public static enum Drink {
         BEER, CAPPUCCINO, CHOCOLATE
@@ -30,6 +29,7 @@ public class Pub {
     private Landlord landlord;
     private ServingArea servingArea;
     private List<Table> tables;
+    private Statistics statistics;
 
     public static void main(String[] args) {
         new Pub();
@@ -45,8 +45,7 @@ public class Pub {
         this.assistant = new Assistant(this.servingArea, this.tables);
         this.barmaid = new Barmaid(this.servingArea);
         this.landlord = new Landlord(this);
-        
-        
+        this.statistics = new Statistics();
     }
     
     public process run {
@@ -55,6 +54,7 @@ public class Pub {
             Customer c = new Customer(
                 this.servingArea.order, 
                 this.landlord.customerLeft, 
+                this.waitingTime,
                 this.tables.get(random.nextInt(Pub.NUM_TABLES))
             );
             this.landlord.addCustomer(c);
@@ -78,4 +78,7 @@ public class Pub {
         return this.servingArea;
     }
     
+    public ServingArea getStatistics() {
+        return this.statistics;
+    }
 }
