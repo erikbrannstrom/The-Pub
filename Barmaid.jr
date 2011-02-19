@@ -1,17 +1,34 @@
 import edu.ucdavis.jr.*;
 
+/** 
+ * The barmaid helps the landlord take orders from customers. 
+ */
 public class Barmaid extends ServicePerson {
     
+    /** Process running or not */
     private boolean running;
+    
+    /** Knows about the serving area */
     private ServingArea servingArea;
     
+    /**
+     * Channel for listening for leave message from landlord.
+     */
     public op void leave();
     
+    /**
+     * Initialize barmaid process!
+     */
     public Barmaid(ServingArea servingArea) {
         this.running = true;
         this.servingArea = servingArea;
     }
     
+    /**
+     * Wait for order messages from customers. When one is received, barmaid
+     * makes the drink, which is described in ServicePerson.jr, and gives it
+     * to the customer. When landlord sends leave message, barmaid goes home.
+     */
     public process run {
         while (this.running) {
             inni void leave() {
@@ -24,12 +41,10 @@ public class Barmaid extends ServicePerson {
                 send customer(drink);
             }
         }
-        
         System.out.println("Barmaid: Good night, Landlord!");
     }
 
     protected ServingArea getServingArea() {
         return this.servingArea;
     }
-
 }

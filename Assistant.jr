@@ -1,15 +1,31 @@
 import edu.ucdavis.jr.*;
 import java.util.*;
 
+/** 
+ * The assistant sweeps the tables and does the dishes.
+ */
 public class Assistant {
     
+    /** Process running or not */
     private boolean running;
+    
+    /** Knows about the serving area */
     private ServingArea servingArea;
+    
+    /** Knows about the tables */
     private List<Table> tables;
+    
+    /** Has a tray to put dirty dishes on */
     private List<Container> tray;
     
+    /**
+     * Channel for listening for final round message from landlord.
+     */
     public op void finalRound();
     
+    /**
+     * Initialize assistant process!
+     */
     public Assistant(ServingArea servingArea, List<Table> tables) {
         this.running = true;
         this.servingArea = servingArea;
@@ -17,6 +33,10 @@ public class Assistant {
         this.tray = new ArrayList<Container>();
     }
     
+    /**
+     * Assistant does table sweeps with breaks in between until final round is
+     * signaled from the landlord. Then performs final sweep and goes home.
+     */
     public process run {
         while (this.running) {
             inni void finalRound() {
@@ -29,10 +49,13 @@ public class Assistant {
                 JR.nap(Pub.ASSISTANT_BREAK);
             }
         }
-        
         System.out.println("Assistant: Done for tonight. Time to head home.");
     }
     
+    /**
+     * Goes between all tables and picks up dirty dishes. Assistant then
+     * cleans dirty dishes and puts it pack in the cupboard.
+     */
     private void sweep() {
         System.out.println("Assistant: Time for my sweep.");
         
