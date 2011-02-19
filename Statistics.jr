@@ -1,0 +1,45 @@
+import edu.ucdavis.jr.*;
+import java.util.*;
+
+public class Statistics {
+    public op void waitingTime(MyTime time);
+    
+    private boolean running;
+    private List<MyTime> waitingTimes;
+    
+    public Statistics() {
+        this.waitingTimes = new Vector<MyTime>();
+        this.running = true;
+    }
+    
+    public process run {
+        while (this.running) {
+            inni void waitingTime(MyTime time) {
+                this.waitingTimes.add(time);
+            }
+        }
+    }
+    
+    public MyTime getMax() {
+        Collections.sort(this.waitingTimes);
+        return this.waitingTimes.firstElement();
+    }
+    
+    public MyTime getMin() {
+        Collections.sort(this.waitingTimes);
+        return this.waitingTimes.lastElement();
+    }
+    
+    public MyTime getAverage() {
+        Collections.sort(this.waitingTimes);
+        return this.waitingTimes.firstElement();
+    }
+    
+    public int getNumberOfOrders() {
+        return this.waitingTimes.size();
+    }
+    
+    public void kill() {
+        this.running = false;
+    }
+}
