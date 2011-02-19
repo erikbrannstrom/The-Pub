@@ -36,16 +36,12 @@ public class Landlord extends ServicePerson {
                 for (Customer c : this.customers) {
                     send c.leave();
                 }
+                this.checkClosing();
             } 
             [] void customerLeft(Customer c) {
                 this.customers.remove(c);
                 // if it's closing time and all customers have left, close up shop
-                if (this.customers.size() == 0 && !this.serving) {
-                    System.out.println("Landlord: That's all of 'em.");
-                    call this.pub.getAssistant().finalRound();
-                    send this.clock.shutdown();
-                    this.running = false;
-                }
+                this.checkClosing();
             }
             [] void lastCall() {
                 System.out.println("Landlord: Last call!");
@@ -54,13 +50,23 @@ public class Landlord extends ServicePerson {
                 }
             }
             [] void servingArea.order(cap void(Container) customer, Pub.Drink type)
-                    st (closingTime.length() == 0 || lastCall.length() == 0) && this.serving {
+                    st (closingTime.length() == 0 || lastCall.length() == 0 || customerLeft.length() == 0) && this.serving
+            {
                 System.out.println("Landlord: Received order of " + type + ". On it!");
                 Container drink = this.makeDrink(type);
                 send customer(drink);
             }
         }
         System.out.println("Landlord: That's it. Closing up for tonight. Good bye pub!");
+    }
+    
+    private void checkClosing() {
+        if (this.customers.size() == 0 && !this.serving) {
+            System.out.println("Landlord: That's all of 'em.");
+            call this.pub.getAssistant().finalRound();
+            send this.clock.shutdown();
+            this.running = false;
+        }
     }
     
     public boolean isServing() {
