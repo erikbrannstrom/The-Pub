@@ -78,6 +78,7 @@ public class Landlord extends ServicePerson {
         System.out.println("Landlord: We had a total of " + stats.getNumberOfOrders() + " orders tonight.");
         System.out.println("Landlord: The average time from order to serving was " + stats.getAverage() + ".");
         System.out.println("Landlord: The longest time was " + stats.getMax() + " and the shortest was " + stats.getMin() + ".");
+        stats.kill();
         
         System.out.println("Landlord: That's it. Closing up for tonight. Good bye pub!");
     }
