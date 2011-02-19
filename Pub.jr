@@ -49,13 +49,13 @@ public class Pub {
     public process run {
         Random random = new Random();
         while (this.landlord.isServing()) {
-            JR.nap((10+random.nextInt(50*60))*Pub.SIMULATION_SPEED);
             Customer c = new Customer(
                 this.servingArea.order, 
                 this.landlord.customerLeft, 
                 this.tables.get(random.nextInt(Pub.NUM_TABLES))
             );
             this.landlord.addCustomer(c);
+            JR.nap((10+random.nextInt(50*60))*Pub.SIMULATION_SPEED);
         }
     }
     
