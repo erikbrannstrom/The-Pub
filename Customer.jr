@@ -16,6 +16,7 @@ public class Customer {
     public op void lastCall();
     public op void finishedDrink();
     public op void leftDrink();
+    public op void leave();
     
     public Customer(cap void(cap void(Container), Pub.Drink) order, Table table) {
         Random random = new Random();
@@ -81,5 +82,4 @@ public class Customer {
         send this.clock.setAlarmEndTime(this.finishedDrink);
         return container;
     }
-    
 }

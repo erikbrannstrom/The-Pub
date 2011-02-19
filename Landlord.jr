@@ -15,9 +15,9 @@ public class Landlord extends ServicePerson {
     public Landlord(Pub pub) {
         this.clock = new Clock(Pub.SIMULATION_SPEED, Pub.TIME_OPEN);
         this.pub = pub;
-        this.running = true;
         this.customers = new Vector<Customer>();
         this.serving = true;
+        this.running = true;
         
         // set alarms
         send this.clock.setAlarmEndTime(this.closingTime);
@@ -28,12 +28,24 @@ public class Landlord extends ServicePerson {
         ServingArea servingArea = this.pub.getServingArea(); 
         while (this.running) {
             inni void closingTime() {
-                System.out.println("Landlord: Time to go home, fellas!");
+                System.out.println("Landlord: Look at the time! Barmaid go home.");
                 send this.pub.getBarmaid().leave();
-                send this.pub.getAssistant().finalRound();
-                send this.clock.shutdown();
                 this.serving = false;
+                System.out.println("Landlord: Time to go home, fellas!");
+                for (Customer c : this.customers) {
+                    send c.leave();
+                }
             } 
+            [] void customerLeft(Customer c) {
+                this.customers.remove(c);
+                // if it's closing time and all customers have left, close up shop
+                if (this.customers.count() == 0 && !this.serving) {
+                    System.out.println("Landlord: That's all of 'em.");
+                    call this.pub.getAssistant().finalRound();
+                    send this.clock.shutdown();
+                    this.running = false;
+                }
+            }
             [] void lastCall() {
                 System.out.println("Landlord: Last call!");
                 for(Customer c : this.customers) {
@@ -47,7 +59,7 @@ public class Landlord extends ServicePerson {
                 send customer(drink);
             }
         }
-        System.out.println("Landlord: DIE");
+        System.out.println("Landlord: That's it. Closing up for tonight. Good bye pub!");
     }
     
     public boolean isServing() {
