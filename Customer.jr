@@ -14,16 +14,18 @@ public class Customer {
     
     private cap void(cap void(Container), Pub.Drink) order;
     private cap void(Customer) goodbye;
+    private cap void(MyTime) stats;
     public op void lastCall();
     public op void finishedDrink();
     public op void leftDrink();
     public op void leave();
     private op void getOrder(Container);
     
-    public Customer(cap void(cap void(Container), Pub.Drink) order, cap void(Customer) goodbye, Table table) {
+    public Customer(cap void(cap void(Container), Pub.Drink) order, cap void(Customer) goodbye, cap void(MyTime) stats, Table table) {
         Random random = new Random();
         this.order = order;
         this.goodbye = goodbye;
+        this.stats = stats;
         int rand = random.nextInt(Pub.Drink.values().length);
         this.preferredDrink = Pub.Drink.values()[rand];
         this.running = true;
@@ -64,6 +66,7 @@ public class Customer {
                 MyTime time = this.clock.getTime();
                 send this.clock.shutdown();
                 System.out.println("Customer " + this.id + ": Thank you! I waited " + time + ".");
+                send this.stats(time);
                 // Set timer for drinking
                 this.clock = new Clock(Pub.SIMULATION_SPEED, new MyTime(0, 10, 0));
                 send this.clock.setAlarmEndTime(this.finishedDrink);
