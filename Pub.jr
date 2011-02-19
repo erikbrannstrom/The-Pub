@@ -1,7 +1,14 @@
 import edu.ucdavis.jr.*;
 import java.util.*;
 
+/**
+ * Program for simulating a concurrent pub.
+ */
 public class Pub {
+    
+    /**
+     * Configuration constants for the simulation.
+     */
     public static final int SIMULATION_SPEED = 1;
     public static final int NUM_CUPS = 15;
     public static final int NUM_GLASSES = 20;
@@ -19,22 +26,44 @@ public class Pub {
     public static final MyTime TIME_OPEN = new MyTime(2, 0, 0);
     public static final MyTime TIME_LAST_CALL = new MyTime(1, 50, 0);
     
+    /**
+     * Types of available drinks at the pub.
+     */
     public static enum Drink {
         BEER, CAPPUCCINO, CHOCOLATE
     }
     
+    /** The assistant sweeps the tables and does the dishes */
     private Assistant assistant;
+    
+    /** The barmaid helps the landlord take orders from customers */
     private Barmaid barmaid;
+    
+    /** The customers currently in the pub */
     private List<Customer> customers;
+    
+    /** The landlord runs the pub */
     private Landlord landlord;
+    
+    /** The serving area contains everything needed for customer orders */
     private ServingArea servingArea;
-    private List<Table> tables;
+    
+    /** Keeps track of pub statistics */
     private Statistics statistics;
+    
+    /** The tables in the pub */
+    private List<Table> tables;
 
+    /**
+     * Start program.
+     */
     public static void main(String[] args) {
         new Pub();
     }
     
+    /**
+     * Initialize pub process!
+     */
     public Pub() {
         System.out.println("Pub: Opened");
         this.tables = new Vector<Table>();
@@ -48,14 +77,17 @@ public class Pub {
         this.statistics = new Statistics();
     }
     
+    /**
+     * Customers arrive randomly while the pub is open (landlord is still serving)
+     */
     public process run {
         Random random = new Random();
         while (this.landlord.isServing()) {
             Customer c = new Customer(
-                this.servingArea.order, 
-                this.landlord.customerLeft, 
-                this.statistics.waitingTime,
-                this.tables.get(random.nextInt(Pub.NUM_TABLES))
+                this.servingArea.order, // channel for placing orders
+                this.landlord.customerLeft, // channel for saying goodbye to the landlord when leaving
+                this.statistics.waitingTime, // channel for reporting statistics on waiting time
+                this.tables.get(random.nextInt(Pub.NUM_TABLES)) // preferred table
             );
             this.landlord.addCustomer(c);
             JR.nap(Pub.CUSTOMER_MIN_TIME_UNTIL_NEW_ARRIVAL + random.nextInt(Pub.CUSTOMER_MAX_TIME_UNTIL_NEW_ARRIVAL));
