@@ -47,6 +47,7 @@ public class Landlord extends ServicePerson {
                 send customer(drink);
             }
         }
+        System.out.println("Landlord: DIE");
     }
     
     public boolean isServing() {

@@ -18,7 +18,8 @@ public class Barmaid extends ServicePerson {
                 System.out.println("Barmaid: Good night, Landlord!");
                 this.running = false;
             }
-            [] void this.servingArea.order(cap void(Container) customer, Pub.Drink type) {
+            [] void this.servingArea.order(cap void(Container) customer, Pub.Drink type)
+                    st leave.length() == 0 {
                 System.out.println("Barmaid: Received order of " + type + ". On it!");
                 Container drink = this.makeDrink(type);
                 send customer(drink);
