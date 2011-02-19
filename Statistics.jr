@@ -21,18 +21,15 @@ public class Statistics {
     }
     
     public MyTime getMax() {
-        Collections.sort(this.waitingTimes);
-        return this.waitingTimes.firstElement();
+        Collections.max(this.waitingTimes);
     }
     
     public MyTime getMin() {
-        Collections.sort(this.waitingTimes);
-        return this.waitingTimes.lastElement();
+        Collections.min(this.waitingTimes);
     }
     
     public MyTime getAverage() {
-        Collections.sort(this.waitingTimes);
-        return this.waitingTimes.firstElement();
+        Collections.min(this.waitingTimes);
     }
     
     public int getNumberOfOrders() {

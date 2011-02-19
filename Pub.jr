@@ -54,7 +54,7 @@ public class Pub {
             Customer c = new Customer(
                 this.servingArea.order, 
                 this.landlord.customerLeft, 
-                this.waitingTime,
+                this.statistics.waitingTime,
                 this.tables.get(random.nextInt(Pub.NUM_TABLES))
             );
             this.landlord.addCustomer(c);
