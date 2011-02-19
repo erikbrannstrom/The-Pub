@@ -25,6 +25,7 @@ public class Landlord extends ServicePerson {
             inni void closingTime() {
                 System.out.println("Landlord: Time to go home, fellas!");
                 send this.pub.getBarmaid().leave();
+                send this.pub.getAssistant().finalRound();
                 send this.clock.shutdown();
             } 
             [] void lastCall() {
