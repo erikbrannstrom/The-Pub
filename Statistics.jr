@@ -29,7 +29,11 @@ public class Statistics {
     }
     
     public MyTime getAverage() {
-        return Collections.min(this.waitingTimes);
+        int sum = 0;
+        for(MyTime t : this.waitingTimes) {
+            sum += t.getValue();
+        }
+        return new MyTime((int)(sum/this.getNumberOfOrders()));
     }
     
     public int getNumberOfOrders() {
