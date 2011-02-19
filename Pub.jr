@@ -48,16 +48,11 @@ public class Pub {
     
     public process run {
         Random random = new Random();
-        while (true) {
+        while (this.landlord.isServing()) {
             JR.nap((10+random.nextInt(50*60))*Pub.SIMULATION_SPEED);
             Customer c = new Customer(this.servingArea.order, this.tables.get(random.nextInt(Pub.NUM_TABLES)));
             this.landlord.addCustomer(c);
         }
-        //new Customer(this.servingArea.order, this.tables.get(random.nextInt(Pub.NUM_TABLES)));
-        //JR.nap((10+random.nextInt(2*60))*Pub.SIMULATION_SPEED);
-        //new Customer(this.servingArea.order, this.tables.get(random.nextInt(Pub.NUM_TABLES)));
-        //JR.nap((10+random.nextInt(2*60))*Pub.SIMULATION_SPEED);
-        //new Customer(this.servingArea.order, this.tables.get(random.nextInt(Pub.NUM_TABLES)));
     }
     
     public Assistant getAssistant() {
