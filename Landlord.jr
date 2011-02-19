@@ -11,6 +11,7 @@ public class Landlord extends ServicePerson {
     
     private op void closingTime();
     private op void lastCall();
+    public op void customerLeft(Customer c);
     
     public Landlord(Pub pub) {
         this.clock = new Clock(Pub.SIMULATION_SPEED, Pub.TIME_OPEN);
@@ -39,7 +40,7 @@ public class Landlord extends ServicePerson {
             [] void customerLeft(Customer c) {
                 this.customers.remove(c);
                 // if it's closing time and all customers have left, close up shop
-                if (this.customers.count() == 0 && !this.serving) {
+                if (this.customers.size() == 0 && !this.serving) {
                     System.out.println("Landlord: That's all of 'em.");
                     call this.pub.getAssistant().finalRound();
                     send this.clock.shutdown();
