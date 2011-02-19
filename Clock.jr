@@ -65,8 +65,6 @@ public class Clock {
       }
     }
     send stopTicker();
-    if (alarms.size() > 0)
-      System.err.println("Some alarms left: "+alarms);
   }
 
   private process ticker {

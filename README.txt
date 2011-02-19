@@ -1,8 +1,7 @@
-Describe any modifications, assumptions and basic design decisions that have been made about the behavior of the various components of the simulation.
+We used resource allocators, much like the one described in the lectures, for each of the ingredients, the beer tap, cups and glasses. This simplified the way our service personnel accessed the different resources. Since each service person always releases the allocator before requiring the next resource there is no risk of deadlock.
 
-Identify all potential sources of deadlock in the problem specification and describe briefly how they are avoided in the implementation. Your documentation should include at least the following:
+The trickiest part for us was dealing with the customer behavior, especially around closing time. By analyzing the different scenarios we realized that customers could get stuck in the queue if they had ordered a beverage before closing time, however the landlord stopped servicing these orders. We therefore implemented a special behavior for these customers that allowed them to simply leave instead of queuing for infinity.
 
-    Could the barmaid and landlord be involved in a deadlock when they take the ingredients for the cupboard? Why (not)?
-    Could the barmaid and landlord be involved in a deadlock when they take the glasses and cups for the cupboard? Why (not)?
+A design choice we made was having one clock belonging to the Landlord, seeing as he is the man in charge, which dictates the opening hours and when last orders should be called. We also chose to let each Customer have a clock of their own which was used for timing both their drinking as well as their time spent waiting, mainly because it made more sense for them to keep these times themselves instead of relying on the landlord's clock.
 
-You should give an explanation of your implementation. If your code meets certain demands of readability (see below) an explanation of the tricky parts of the software suffices.
+The only modifications of the supplied classes was that we removed the printing from Clock, since we consider that to be our responsibility.

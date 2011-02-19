@@ -16,7 +16,7 @@ public class Pub {
     public static final int ASSISTANT_WALK_BETWEEN_TABLES = 10 * Pub.SIMULATION_SPEED;
     public static final int CUSTOMER_MIN_TIME_UNTIL_NEW_ARRIVAL = 5 * 60 * Pub.SIMULATION_SPEED;
     public static final int CUSTOMER_MAX_TIME_UNTIL_NEW_ARRIVAL = 50 * 60 * Pub.SIMULATION_SPEED;
-    public static final MyTime TIME_OPEN = new MyTime(2, 0, 0);
+    public static final MyTime TIME_OPEN = new MyTime(4, 0, 0);
     public static final MyTime TIME_LAST_CALL = new MyTime(1, 50, 0);
     
     public static enum Drink {
