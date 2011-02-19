@@ -16,6 +16,9 @@ public class Pub {
     public static final int ASSISTANT_HANDLE_CONTAINER = 1 * Pub.SIMULATION_SPEED;
     public static final int ASSISTANT_CLEAN_CONTAINER = 10 * Pub.SIMULATION_SPEED;
     public static final int ASSISTANT_WALK_BETWEEN_TABLES = 10 * Pub.SIMULATION_SPEED;
+    public static final int CUSTOMER_MIN_TIME_UNTIL_NEW_ARRIVAL = 5 * 60 * Pub.SIMULATION_SPEED;
+    public static final int CUSTOMER_MAX_TIME_UNTIL_NEW_ARRIVAL = 50 * 60 * Pub.SIMULATION_SPEED;
+
     
     public static enum Drink {
         BEER, CAPPUCCINO, CHOCOLATE
@@ -55,7 +58,7 @@ public class Pub {
                 this.tables.get(random.nextInt(Pub.NUM_TABLES))
             );
             this.landlord.addCustomer(c);
-            JR.nap((10+random.nextInt(50*60))*Pub.SIMULATION_SPEED);
+            JR.nap(Pub.CUSTOMER_MIN_TIME_UNTIL_NEW_ARRIVAL + random.nextInt(Pub.CUSTOMER_MAX_TIME_UNTIL_NEW_ARRIVAL));
         }
     }
     
