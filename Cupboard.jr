@@ -1,6 +1,9 @@
 import edu.ucdavis.jr.*;
 import java.util.*;
 
+/** 
+ * Cupboard contains all resources needed for mixing drinks. 
+ */
 public class Cupboard {
 
     private ResourceAllocator<Ingredient> chocolate;
@@ -9,6 +12,10 @@ public class Cupboard {
     private ResourceAllocator<Cup> cups;
     private ResourceAllocator<Glass> glasses;
     
+    /** 
+     * Create resource allocators for all ingredients and for cups and 
+     * glasses. These allocators can allocate or release single resources.
+     */
     public Cupboard() {
         // create resource allocators for ingredients
         this.chocolate = new ResourceAllocator<Ingredient>(new Ingredient());
@@ -28,7 +35,6 @@ public class Cupboard {
             glasses.add(new Glass());
         }
         this.glasses = new ResourceAllocator<Glass>(glasses);
-
     }
     
     public ResourceAllocator<Ingredient> getChocolateAllocator() {
@@ -50,5 +56,4 @@ public class Cupboard {
     public ResourceAllocator<Cup> getCupAllocator() {
         return this.cups;
     }
-    
 }

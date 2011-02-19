@@ -1,5 +1,8 @@
 import edu.ucdavis.jr.*;
 
+/** 
+ * Cup is a form of container that takes up 2 space units. 
+ */
 public class Cup extends Container {
     public int getSize() {
         return 2;

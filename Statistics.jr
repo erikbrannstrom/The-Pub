@@ -1,17 +1,32 @@
 import edu.ucdavis.jr.*;
 import java.util.*;
 
+/** 
+ * Keeps track of pub statistics.
+ */
 public class Statistics {
-    public op void waitingTime(MyTime time);
     
+    /** Process running or not */
     private boolean running;
+    
+    /** List of customer waiting times */
     private List<MyTime> waitingTimes;
     
+    /** Channel for listening to reported waiting times */
+    public op void waitingTime(MyTime time);
+    
+    
+    /** 
+     * Initialize statistics process!
+     */
     public Statistics() {
-        this.waitingTimes = new Vector<MyTime>();
         this.running = true;
+        this.waitingTimes = new Vector<MyTime>();
     }
     
+    /**
+     * Listen to waiting time messages from customers and put them all in the list.
+     */
     public process run {
         while (this.running) {
             inni void waitingTime(MyTime time) {
@@ -20,14 +35,23 @@ public class Statistics {
         }
     }
     
+    /**
+     * Get the maximum waiting time.
+     */
     public MyTime getMax() {
         return Collections.max(this.waitingTimes);
     }
     
+    /**
+     * Get the minimum waiting time.
+     */
     public MyTime getMin() {
         return Collections.min(this.waitingTimes);
     }
     
+    /**
+     * Get the average waiting time.
+     */
     public MyTime getAverage() {
         int sum = 0;
         for(MyTime t : this.waitingTimes) {
@@ -36,10 +60,16 @@ public class Statistics {
         return new MyTime((int)(sum/this.getNumberOfOrders()));
     }
     
+    /**
+     * Get the total number of orders recorded.
+     */
     public int getNumberOfOrders() {
         return this.waitingTimes.size();
     }
     
+    /**
+     * Kill the process.
+     */
     public void kill() {
         this.running = false;
     }

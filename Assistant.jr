@@ -18,9 +18,7 @@ public class Assistant {
     /** Has a tray to put dirty dishes on */
     private List<Container> tray;
     
-    /**
-     * Channel for listening for final round message from landlord.
-     */
+    /** Channel for listening for final round message from landlord */
     public op void finalRound();
     
     /**

@@ -1,33 +1,59 @@
 import edu.ucdavis.jr.*;
 import java.util.*;
 
+/** 
+ *The landlord runs the pub. 
+ */
 public class Landlord extends ServicePerson {
     
+    /** Keeps track of closing time and last call */
     private Clock clock;
-    private Pub pub;
-    private boolean running;
+    
+    /** Knows all the customers in the pub */
     private List<Customer> customers;
+    
+    /** Knows the entire pub */
+    private Pub pub;
+    
+    /** Process running or not */
+    private boolean running;
+    
+    /** Taking new orders or not */
     private boolean serving;
     
+    /** Channel for listening for closing time message from clock */
     private op void closingTime();
+    
+    /** Channel for listening for last call message from clock */
     private op void lastCall();
+    
+    /** Channel for listening for customer left message from customer */
     public op void customerLeft(Customer c);
     
+    /**
+     * Initialize landlord process!
+     */
     public Landlord(Pub pub) {
         this.clock = new Clock(Pub.SIMULATION_SPEED, Pub.TIME_OPEN);
-        this.pub = pub;
         this.customers = new Vector<Customer>();
-        this.serving = true;
+        this.pub = pub;
         this.running = true;
+        this.serving = true;
         
         // set alarms
         send this.clock.setAlarmEndTime(this.closingTime);
         send this.clock.setAlarm(this.lastCall, Pub.TIME_LAST_CALL);
     }
     
+    /**
+     * Landlord serves customers, described in ServicePerson.jr, keeps track
+     * of all customers currently in the pub, and listens for last call and 
+     * closing time alarms from his clock.
+     */
     public process run {
         ServingArea servingArea = this.pub.getServingArea(); 
         while (this.running) {
+            // It is closing time! Tell everybody to go home.
             inni void closingTime() {
                 System.out.println("Landlord: Look at the time! Barmaid go home.");
                 send this.pub.getBarmaid().leave();
@@ -37,18 +63,20 @@ public class Landlord extends ServicePerson {
                     send c.leave();
                 }
                 this.checkClosing();
-            } 
+            }
+            // Customer left the pub. 
             [] void customerLeft(Customer c) {
                 this.customers.remove(c);
-                // if it's closing time and all customers have left, close up shop
                 this.checkClosing();
             }
+            // Time for last call. Notify all customers.
             [] void lastCall() {
                 System.out.println("Landlord: Last call!");
                 for(Customer c : this.customers) {
                     send c.lastCall();
                 }
             }
+            // Someone ordered something. Serve the customer.
             [] void servingArea.order(cap void(Container) customer, Pub.Drink type)
                     st (closingTime.length() == 0 || lastCall.length() == 0 || customerLeft.length() == 0) && this.serving
             {
@@ -57,6 +85,8 @@ public class Landlord extends ServicePerson {
                 send customer(drink);
             }
         }
+        
+        // Perform statistics now that everybody has gone home.
         
         // Make sure all glasses and cups have been returned
         Cupboard cb = this.pub.getServingArea().getCupboard();
@@ -83,6 +113,10 @@ public class Landlord extends ServicePerson {
         System.out.println("Landlord: That's it. Closing up for tonight. Good bye pub!");
     }
     
+    /**
+     * See if we can close up shop. If there are no more customers and 
+     * we are post last order, terminate process.
+     */
     private void checkClosing() {
         if (this.customers.size() == 0 && !this.serving) {
             System.out.println("Landlord: That's all of 'em.");
@@ -107,5 +141,4 @@ public class Landlord extends ServicePerson {
     protected ServingArea getServingArea() {
         return this.pub.getServingArea();
     }
-
 }
