@@ -39,9 +39,6 @@ public class Pub {
     /** The barmaid helps the landlord take orders from customers */
     private Barmaid barmaid;
     
-    /** The customers currently in the pub */
-    private List<Customer> customers;
-    
     /** The landlord runs the pub */
     private Landlord landlord;
     

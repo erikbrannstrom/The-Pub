@@ -1,5 +1,7 @@
 import edu.ucdavis.jr.*;
 
-public class Ingredient {
-    
-}
+/** 
+ * This class exists simply for code clarity and is used by cupboard
+ * when creating resource allocators for cupboard ingredients.
+ */
+public class Ingredient {}
