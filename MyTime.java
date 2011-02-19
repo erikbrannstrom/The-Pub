@@ -1,4 +1,4 @@
-public class MyTime implements Cloneable {
+public class MyTime implements Cloneable, Comparable {
   private int value;
 
   public MyTime(int hour, int min, int sec) {
@@ -48,8 +48,12 @@ public class MyTime implements Cloneable {
       return false;
   }
 
-  public int compareTo(MyTime t) {
-    return value - t.value;
+  public int compareTo(Object obj) {
+      if (obj instanceof MyTime) {
+          MyTime t = (MyTime) obj;
+          return value - t.value;
+      }
+      return 0;
   }
 
   public int hashCode() {

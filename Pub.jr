@@ -78,7 +78,7 @@ public class Pub {
         return this.servingArea;
     }
     
-    public ServingArea getStatistics() {
+    public Statistics getStatistics() {
         return this.statistics;
     }
 }

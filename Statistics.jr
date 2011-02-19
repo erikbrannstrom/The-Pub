@@ -21,15 +21,15 @@ public class Statistics {
     }
     
     public MyTime getMax() {
-        Collections.max(this.waitingTimes);
+        return Collections.max(this.waitingTimes);
     }
     
     public MyTime getMin() {
-        Collections.min(this.waitingTimes);
+        return Collections.min(this.waitingTimes);
     }
     
     public MyTime getAverage() {
-        Collections.min(this.waitingTimes);
+        return Collections.min(this.waitingTimes);
     }
     
     public int getNumberOfOrders() {
