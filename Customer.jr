@@ -58,7 +58,7 @@ public class Customer {
                     this.getDrink();
                 }
             }
-            [] void getOrder(Container c) {
+            [] void getOrder(Container c) st this.running {
                 this.currentDrink = c;
                 this.numDrinks--;
                 System.out.println("Customer " + this.id + ": Thank you!");
@@ -67,8 +67,11 @@ public class Customer {
                 send this.clock.setAlarmEndTime(this.finishedDrink);
             }
             [] void leave() {
-                System.out.println("Customer " + this.id + ": Oh, no more drinking for me..");
-                this.running = false;
+                this.numDrinks = 0;
+                if(this.currentDrink == null) {
+                    System.out.println("Customer " + this.id + ": Oh, no more drinking for me..");
+                    this.running = false;
+                }
             }
         }
         
@@ -85,6 +88,7 @@ public class Customer {
             receive this.leftDrink();
         }
         System.out.println("Customer " + this.id + ": Put down my container on table.");
+        this.currentDrink = null;
     }
     
     private void getDrink() {
