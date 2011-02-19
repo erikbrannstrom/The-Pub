@@ -18,6 +18,7 @@ public class Customer {
     public op void finishedDrink();
     public op void leftDrink();
     public op void leave();
+    private op void getOrder(Container);
     
     public Customer(cap void(cap void(Container), Pub.Drink) order, cap void(Customer) goodbye, Table table) {
         Random random = new Random();
@@ -39,7 +40,7 @@ public class Customer {
         greetings.add("Hello Pub!");
         System.out.println("Customer " + this.id + ": " + greetings.get(new Random().nextInt(greetings.size())));
         
-        currentDrink = this.getDrink();
+        this.getDrink();
         
         while (this.running) {
             inni void finishedDrink() {
@@ -51,11 +52,23 @@ public class Customer {
                 }
             }
             [] void lastCall() {
-                if(this.numDrinks > 0) {
+                if(this.numDrinks > 0 && this.preferredDrink == Pub.Drink.BEER) {
                     this.leaveContainer();
                     this.numDrinks = 1;
                     this.getDrink();
                 }
+            }
+            [] void getOrder(Container c) {
+                this.currentDrink = c;
+                this.numDrinks--;
+                System.out.println("Customer " + this.id + ": Thank you!");
+                // Set timer for drinking
+                this.clock = new Clock(Pub.SIMULATION_SPEED, new MyTime(0, 10, 0));
+                send this.clock.setAlarmEndTime(this.finishedDrink);
+            }
+            [] void leave() {
+                System.out.println("Customer " + this.id + ": Oh, no more drinking for me..");
+                this.running = false;
             }
         }
         
@@ -64,25 +77,18 @@ public class Customer {
     }
     
     private void leaveContainer() {
+        System.out.println("Customer " + this.id + ": Trying to put down my container on table.");
         // stop drink timer
         send this.clock.shutdown();
         // put down container
         if(this.preferredTable.putDown(this.leftDrink, this.currentDrink) == false) {
             receive this.leftDrink();
         }
+        System.out.println("Customer " + this.id + ": Put down my container on table.");
     }
     
-    private Container getDrink() {
-        Container container;
-        op void getOrder(Container);
+    private void getDrink() {
         System.out.println("Customer " + this.id + ": I would like a " + this.preferredDrink + ", please.");
         send this.order(getOrder, this.preferredDrink);
-        receive getOrder(container);
-        this.numDrinks--;
-        System.out.println("Customer " + this.id + ": Thank you!");
-        // Set timer for drinking
-        this.clock = new Clock(Pub.SIMULATION_SPEED, new MyTime(0, 10, 0));
-        send this.clock.setAlarmEndTime(this.finishedDrink);
-        return container;
     }
 }

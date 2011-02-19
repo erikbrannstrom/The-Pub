@@ -22,7 +22,6 @@ public class Assistant {
             inni void finalRound() {
                 System.out.println("Assistant: All is quiet. Making my final sweep!");
                 this.sweep();
-                System.out.println("Assistant: Done for tonight. Time to head home.");
                 this.running = false;
             } else {
                 this.sweep();
@@ -30,6 +29,8 @@ public class Assistant {
                 JR.nap(Pub.ASSISTANT_BREAK);
             }
         }
+        
+        System.out.println("Assistant: Done for tonight. Time to head home.");
     }
     
     private void sweep() {

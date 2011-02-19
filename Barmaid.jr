@@ -15,7 +15,6 @@ public class Barmaid extends ServicePerson {
     public process run {
         while (this.running) {
             inni void leave() {
-                System.out.println("Barmaid: Good night, Landlord!");
                 this.running = false;
             }
             [] void this.servingArea.order(cap void(Container) customer, Pub.Drink type)
@@ -25,6 +24,8 @@ public class Barmaid extends ServicePerson {
                 send customer(drink);
             }
         }
+        
+        System.out.println("Barmaid: Good night, Landlord!");
     }
 
     protected ServingArea getServingArea() {
