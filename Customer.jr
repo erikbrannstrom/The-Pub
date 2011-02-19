@@ -61,7 +61,9 @@ public class Customer {
             [] void getOrder(Container c) st this.running {
                 this.currentDrink = c;
                 this.numDrinks--;
-                System.out.println("Customer " + this.id + ": Thank you!");
+                MyTime time = this.clock.getTime();
+                send this.clock.shutdown();
+                System.out.println("Customer " + this.id + ": Thank you! I waited " + time + ".");
                 // Set timer for drinking
                 this.clock = new Clock(Pub.SIMULATION_SPEED, new MyTime(0, 10, 0));
                 send this.clock.setAlarmEndTime(this.finishedDrink);
@@ -69,6 +71,8 @@ public class Customer {
             [] void leave() {
                 this.numDrinks = 0;
                 if(this.currentDrink == null) {
+                    if(this.clock != null)
+                        send this.clock.shutdown();
                     System.out.println("Customer " + this.id + ": Oh, no more drinking for me..");
                     this.running = false;
                 }
@@ -80,19 +84,18 @@ public class Customer {
     }
     
     private void leaveContainer() {
-        System.out.println("Customer " + this.id + ": Trying to put down my container on table.");
         // stop drink timer
         send this.clock.shutdown();
         // put down container
         if(this.preferredTable.putDown(this.leftDrink, this.currentDrink) == false) {
             receive this.leftDrink();
         }
-        System.out.println("Customer " + this.id + ": Put down my container on table.");
         this.currentDrink = null;
     }
     
     private void getDrink() {
         System.out.println("Customer " + this.id + ": I would like a " + this.preferredDrink + ", please.");
         send this.order(getOrder, this.preferredDrink);
+        this.clock = new Clock(Pub.SIMULATION_SPEED, new MyTime(0,0,0));
     }
 }
