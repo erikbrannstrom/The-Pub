@@ -62,6 +62,10 @@ public class Pub {
         }
     }
     
+    public List<Table> getTables() {
+        return this.tables;
+    }
+    
     public Assistant getAssistant() {
         return this.assistant;
     }

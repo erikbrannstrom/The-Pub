@@ -57,6 +57,22 @@ public class Landlord extends ServicePerson {
                 send customer(drink);
             }
         }
+        
+        // Make sure all glasses and cups have been returned
+        Cupboard cb = this.pub.getServingArea().getCupboard();
+        if(cb.getCupAllocator().size() != Pub.NUM_CUPS || cb.getGlassAllocator().size() != Pub.NUM_GLASSES) {
+            System.out.println("Landlord: Something is missing from the cupboard!");
+        }
+        
+        // Make sure all tables are empty
+        int containersLeft = 0;
+        for(Table t : this.pub.getTables()) {
+            containersLeft += t.numberOfContainers();
+        }
+        if(containersLeft != 0) {
+            System.out.println("Landlord: Damn you, lazy assistant!");
+        }
+        
         System.out.println("Landlord: That's it. Closing up for tonight. Good bye pub!");
     }
     

@@ -20,6 +20,10 @@ public class ResourceAllocator<E> {
     public ResourceAllocator(List<E> units) {
         this.units = new ArrayDeque<E>(units);
     }
+    
+    public int size() {
+        return this.units.size();
+    }
 
     private process server {
         while (true) {
