@@ -1,30 +1,42 @@
 import edu.ucdavis.jr.*;
 import java.util.*;
 
+/**
+ * Allocates resources in an orderly fashion.
+ */
 public class ResourceAllocator<E> {
     
+    /** Operation to ask for a resource. */
     public op E allocate();
+    
+    /** Operation to return a select resource. */
     public op void release(E unit);
     
+    /* Queue of all available resources. */
     private Queue<E> units;
     
+    /** Simple, empty resource allocator. */
     public ResourceAllocator() {
         this.units = new ArrayDeque<E>();
     }
     
+    /** Create an allocator with one resource. */
     public ResourceAllocator(E unit) {        
         this();
         this.units.add(unit);
     }
     
+    /** Create an allocator that contains all resources in the given list. */
     public ResourceAllocator(List<E> units) {
         this.units = new ArrayDeque<E>(units);
     }
     
+    /** Return the available units. */
     public int size() {
         return this.units.size();
     }
 
+    /** Process that serves incoming requests for returning and receiving resources. */
     private process server {
         while (true) {
             inni E allocate() {

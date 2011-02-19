@@ -1,23 +1,27 @@
 import edu.ucdavis.jr.*;
 
+/** 
+ * Abstract class describing a container holding a beverage.
+ */
 public abstract class Container {
     
-    private boolean inUse;
+    /** The beverage that is contained */
     private Pub.Drink type;
     
-    public Container() {
-        this.inUse = false;
-    }
-    
+    /** Set the type of drink contained. */
     public void fill(Pub.Drink type) {
         this.type = type;
-        this.inUse = true;
     }
     
+    /** Return the type of drink contained. */
     public Pub.Drink getType() {
         return this.type;
     }
     
+    /**
+     * Abstract method that should return the number of
+     * space units the container covers on a table.
+     */
     public abstract int getSize();
     
 }

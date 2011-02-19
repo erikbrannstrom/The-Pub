@@ -24,7 +24,7 @@ public class Pub {
     public static final int CUSTOMER_MIN_TIME_UNTIL_NEW_ARRIVAL = 5 * 60 * Pub.SIMULATION_SPEED;
     public static final int CUSTOMER_MAX_TIME_UNTIL_NEW_ARRIVAL = 50 * 60 * Pub.SIMULATION_SPEED;
     public static final MyTime TIME_OPEN = new MyTime(4, 0, 0);
-    public static final MyTime TIME_LAST_CALL = new MyTime(1, 50, 0);
+    public static final MyTime TIME_LAST_CALL = new MyTime(3, 50, 0);
     
     /**
      * Types of available drinks at the pub.

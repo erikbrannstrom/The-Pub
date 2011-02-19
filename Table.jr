@@ -1,6 +1,11 @@
 import edu.ucdavis.jr.*;
 import java.util.*;
 
+/**
+ * A table is where containers can be put once they're empty.
+ * They have a limited amount of available space, so they need to be
+ * emptied every now and then.
+ */
 public class Table {    
     
     private List<Container> containers;
@@ -8,9 +13,15 @@ public class Table {
     private int spaceUnits;
     private List<cap void()> waitingCustomers;
     
+    /** Channel for customer to request having their containers put down. */
     public op boolean putDown(cap void() customer, Container container);
+    
+    /** Channel used to empty the table. */
     public op List<Container> clean();
     
+    /**
+     * Create a new table with the given amount of space.
+     */
     public Table(int spaceUnits) {
         this.containers = new ArrayList<Container>();
         this.remainingSpaceUnits = spaceUnits; 
@@ -18,9 +29,14 @@ public class Table {
         this.waitingCustomers = new ArrayList<cap void()>();
     }
     
+    /**
+     * Table process that handles customers putting down containers and
+     * assistants emptying it.
+     */
     private process server { 
         while (true) {
             inni boolean putDown(cap void() customer, Container container) {
+                // Put down container if ther's enough room
                 if (this.remainingSpaceUnits < container.getSize()) {
                     waitingCustomers.add(customer);
                     return false;
@@ -31,6 +47,7 @@ public class Table {
                 }
             }
             [] List<Container> clean() {
+                // Remove all empty containers.
                 this.remainingSpaceUnits = this.spaceUnits;
                 List<Container> tmp = this.containers;
                 this.containers = new ArrayList<Container>();
@@ -42,6 +59,9 @@ public class Table {
         }
     }
     
+    /**
+     * Return the number of containers currently at the table.
+     */
     public int numberOfContainers() {
         return this.containers.size();
     }

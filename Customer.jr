@@ -1,9 +1,15 @@
 import edu.ucdavis.jr.*;
 import java.util.*;
 
+/**
+ * A customer is a person that will continously order beverages
+ * and drink them.
+ */
 public class Customer {
+    /* Allows each customer a unique ID */
     private static int counter = 0;
     
+    /* Customer instance variables */
     private Pub.Drink preferredDrink;
     private Table preferredTable;
     private boolean running;
@@ -12,16 +18,26 @@ public class Customer {
     private Clock clock;
     private Container currentDrink;
     
+    /* Private operation references used to interact with the pub */
     private cap void(cap void(Container), Pub.Drink) order;
     private cap void(Customer) goodbye;
     private cap void(MyTime) stats;
+    
+    /* Operations allowing other parts of the pub to interact with the customer */
     public op void lastCall();
     public op void finishedDrink();
     public op void leftDrink();
     public op void leave();
     private op void getOrder(Container);
     
-    public Customer(cap void(cap void(Container), Pub.Drink) order, cap void(Customer) goodbye, cap void(MyTime) stats, Table table) {
+    /** 
+     * Constructor requires three channels (the first for ordering drinks, the second for saying goodbye
+     * to the landlord and the last to send statistics on waiting time) and a reference to their favorite table.
+     */
+    public Customer(cap void(cap void(Container), Pub.Drink) order, 
+                    cap void(Customer) goodbye, 
+                    cap void(MyTime) stats, 
+                    Table table) {
         Random random = new Random();
         this.order = order;
         this.goodbye = goodbye;
@@ -34,6 +50,10 @@ public class Customer {
         this.id = ++Customer.counter;
     }
     
+    /**
+     * Customer process that allows a customer to continously drink and order drinks until
+     * the pub closes or they are done for tonight. 
+     */
     public process run {
         // enter pub and say greeting phrase!
         List<String> greetings = new ArrayList<String>();
@@ -46,6 +66,7 @@ public class Customer {
         
         while (this.running) {
             inni void finishedDrink() {
+                // Put down glass/cup and either get another one or go home.
                 this.leaveContainer();
                 if(this.numDrinks == 0) {
                     this.running = false;
@@ -54,6 +75,7 @@ public class Customer {
                 }
             }
             [] void lastCall() {
+                // When it's time for last call, beer drinkers will drink up and order a new one.
                 if(this.numDrinks > 0 && this.preferredDrink == Pub.Drink.BEER) {
                     this.leaveContainer();
                     this.numDrinks = 1;
@@ -61,6 +83,7 @@ public class Customer {
                 }
             }
             [] void getOrder(Container c) st this.running {
+                // Receive a container with their beverage of choice.
                 this.currentDrink = c;
                 this.numDrinks--;
                 MyTime time = this.clock.getTime();
@@ -72,8 +95,10 @@ public class Customer {
                 send this.clock.setAlarmEndTime(this.finishedDrink);
             }
             [] void leave() {
+                // Landlord tells customer to leave.
                 this.numDrinks = 0;
                 if(this.currentDrink == null) {
+                    // Customer had ordered but will have to come back another night.
                     if(this.clock != null)
                         send this.clock.shutdown();
                     System.out.println("Customer " + this.id + ": Oh, no more drinking for me..");
@@ -82,10 +107,15 @@ public class Customer {
             }
         }
         
+        // Say goodbye to landlord and everyone else. Time to go home.
         send this.goodbye(this);
         System.out.println("Customer " + this.id + ": I bid you all adiue!");
     }
     
+    /**
+     * Put down the container on table immediately if possible, otherwise do it once 
+     * the assistant says the table has been cleared.
+     */
     private void leaveContainer() {
         // stop drink timer
         send this.clock.shutdown();
@@ -96,6 +126,9 @@ public class Customer {
         this.currentDrink = null;
     }
     
+    /**
+     * Order another dri-hic!-nk.
+     */
     private void getDrink() {
         System.out.println("Customer " + this.id + ": I would like a " + this.preferredDrink + ", please.");
         send this.order(getOrder, this.preferredDrink);

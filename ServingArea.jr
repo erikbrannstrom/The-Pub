@@ -1,20 +1,33 @@
 import edu.ucdavis.jr.*;
 
+/**
+ * Describes the area where drinks are made, i.e. the bar.
+ */
 public class ServingArea {
     private ResourceAllocator<Ingredient> beerTap;
     private Cupboard cupboard;
     
+    /** Channel for incomming bar orders. */
     public op void order(cap void(Container), Pub.Drink drink);
     
+    /**
+     * Creates a new serving area with a beer tap and a cupboard.
+     */
     public ServingArea() {
         this.beerTap = new ResourceAllocator<Ingredient>(new Ingredient());
         this.cupboard = new Cupboard();
     }
     
+    /**
+     * Return the beer tap.
+     */
     public ResourceAllocator<Ingredient> getBeerTapAllocator() {
         return this.beerTap;
     }
     
+    /**
+     * Return the cupboard.
+     */
     public Cupboard getCupboard() {
         return this.cupboard;
     }
