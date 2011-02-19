@@ -7,6 +7,7 @@ public class Landlord extends ServicePerson {
     private Pub pub;
     private boolean running;
     private List<Customer> customers;
+    private boolean serving;
     
     private op void closingTime();
     private op void lastCall();
@@ -16,6 +17,7 @@ public class Landlord extends ServicePerson {
         this.pub = pub;
         this.running = true;
         this.customers = new Vector<Customer>();
+        this.serving = true;
         
         // set alarms
         send this.clock.setAlarmEndTime(this.closingTime);
@@ -30,6 +32,7 @@ public class Landlord extends ServicePerson {
                 send this.pub.getBarmaid().leave();
                 send this.pub.getAssistant().finalRound();
                 send this.clock.shutdown();
+                this.serving = false;
             } 
             [] void lastCall() {
                 System.out.println("Landlord: Last call!");
@@ -38,12 +41,16 @@ public class Landlord extends ServicePerson {
                 }
             }
             [] void servingArea.order(cap void(Container) customer, Pub.Drink type)
-                    st (closingTime.length() == 0 || lastCall.length() == 0) {
+                    st (closingTime.length() == 0 || lastCall.length() == 0) && this.serving {
                 System.out.println("Landlord: Received order of " + type + ". On it!");
                 Container drink = this.makeDrink(type);
                 send customer(drink);
             }
         }
+    }
+    
+    public boolean isServing() {
+        return this.serving;
     }
     
     public void addCustomer(Customer c) {
