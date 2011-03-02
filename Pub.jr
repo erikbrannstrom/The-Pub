@@ -38,6 +38,9 @@ public class Pub {
     
     /** The barmaid helps the landlord take orders from customers */
     private Barmaid barmaid;
+
+    /** Pub clock */    
+    private static Clock clock;
     
     /** The landlord runs the pub */
     private Landlord landlord;
@@ -90,11 +93,7 @@ public class Pub {
             JR.nap(Pub.CUSTOMER_MIN_TIME_UNTIL_NEW_ARRIVAL + random.nextInt(Pub.CUSTOMER_MAX_TIME_UNTIL_NEW_ARRIVAL));
         }
     }
-    
-    public List<Table> getTables() {
-        return this.tables;
-    }
-    
+        
     public Assistant getAssistant() {
         return this.assistant;
     }
@@ -103,11 +102,22 @@ public class Pub {
         return this.barmaid;
     }
     
+    public static Clock getClock() {
+        if (clock == null) {
+            clock = new Clock(Pub.SIMULATION_SPEED, Pub.TIME_OPEN);
+        }
+        return clock;
+    }
+    
     public ServingArea getServingArea() {
         return this.servingArea;
     }
     
     public Statistics getStatistics() {
         return this.statistics;
+    }
+    
+    public List<Table> getTables() {
+        return this.tables;
     }
 }

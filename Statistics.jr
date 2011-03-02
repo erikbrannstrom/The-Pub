@@ -39,20 +39,29 @@ public class Statistics {
      * Get the maximum waiting time.
      */
     public MyTime getMax() {
-        return Collections.max(this.waitingTimes);
+        if(this.waitingTimes.size() == 0)
+            return new MyTime(0);
+        else
+            return Collections.max(this.waitingTimes);
     }
     
     /**
      * Get the minimum waiting time.
      */
     public MyTime getMin() {
-        return Collections.min(this.waitingTimes);
+        if(this.waitingTimes.size() == 0)
+            return new MyTime(0);
+        else
+            return Collections.min(this.waitingTimes);
     }
     
     /**
      * Get the average waiting time.
      */
     public MyTime getAverage() {
+        if(this.getNumberOfOrders() == 0)
+            return new MyTime(0);
+        
         int sum = 0;
         for(MyTime t : this.waitingTimes) {
             sum += t.getValue();

@@ -15,8 +15,9 @@ public class Customer {
     private boolean running;
     private int id;
     private int numDrinks;
-    private Clock clock;
     private Container currentDrink;
+    private MyTime orderTime;
+    private boolean lastCallInterrupt = false;
     
     /* Private operation references used to interact with the pub */
     private cap void(cap void(Container), Pub.Drink) order;
@@ -66,6 +67,11 @@ public class Customer {
         
         while (this.running) {
             inni void finishedDrink() {
+                // If last call interrupt, skip one finishedDrink message
+                if (this.lastCallInterrupt) {
+                    this.lastCallInterrupt = false;
+                    continue;
+                }
                 // Put down glass/cup and either get another one or go home.
                 this.leaveContainer();
                 if(this.numDrinks == 0) {
@@ -77,8 +83,8 @@ public class Customer {
             [] void lastCall() {
                 // When it's time for last call, beer drinkers will drink up and order a new one.
                 if(this.numDrinks > 0 && this.preferredDrink == Pub.Drink.BEER) {
+                    this.lastCallInterrupt = true;
                     this.leaveContainer();
-                    this.numDrinks = 1;
                     this.getDrink();
                 }
             }
@@ -86,21 +92,20 @@ public class Customer {
                 // Receive a container with their beverage of choice.
                 this.currentDrink = c;
                 this.numDrinks--;
-                MyTime time = this.clock.getTime();
-                send this.clock.shutdown();
+                
+                // Send order time to statistics.
+                MyTime time = new MyTime(Pub.getClock().getTime().compareTo(this.orderTime));
                 System.out.println("Customer " + this.id + ": Thank you! I waited " + time + ".");
                 send this.stats(time);
+                
                 // Set timer for drinking
-                this.clock = new Clock(Pub.SIMULATION_SPEED, new MyTime(0, 10, 0));
-                send this.clock.setAlarmEndTime(this.finishedDrink);
+                send Pub.getClock().setAlarm(this.finishedDrink, new MyTime(0, 10, 0));
             }
             [] void leave() {
                 // Landlord tells customer to leave.
                 this.numDrinks = 0;
                 if(this.currentDrink == null) {
                     // Customer had ordered but will have to come back another night.
-                    if(this.clock != null)
-                        send this.clock.shutdown();
                     System.out.println("Customer " + this.id + ": Oh, no more drinking for me..");
                     this.running = false;
                 }
@@ -117,8 +122,6 @@ public class Customer {
      * the assistant says the table has been cleared.
      */
     private void leaveContainer() {
-        // stop drink timer
-        send this.clock.shutdown();
         // put down container
         if(this.preferredTable.putDown(this.leftDrink, this.currentDrink) == false) {
             receive this.leftDrink();
@@ -132,6 +135,6 @@ public class Customer {
     private void getDrink() {
         System.out.println("Customer " + this.id + ": I would like a " + this.preferredDrink + ", please.");
         send this.order(getOrder, this.preferredDrink);
-        this.clock = new Clock(Pub.SIMULATION_SPEED, new MyTime(0,0,0));
+        this.orderTime = Pub.getClock().getTime();
     }
 }

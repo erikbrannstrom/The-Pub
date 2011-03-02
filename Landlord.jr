@@ -6,9 +6,6 @@ import java.util.*;
  */
 public class Landlord extends ServicePerson {
     
-    /** Keeps track of closing time and last call */
-    private Clock clock;
-    
     /** Knows all the customers in the pub */
     private List<Customer> customers;
     
@@ -34,15 +31,14 @@ public class Landlord extends ServicePerson {
      * Initialize landlord process!
      */
     public Landlord(Pub pub) {
-        this.clock = new Clock(Pub.SIMULATION_SPEED, Pub.TIME_OPEN);
         this.customers = new Vector<Customer>();
         this.pub = pub;
         this.running = true;
         this.serving = true;
         
         // set alarms
-        send this.clock.setAlarmEndTime(this.closingTime);
-        send this.clock.setAlarm(this.lastCall, Pub.TIME_LAST_CALL);
+        send Pub.getClock().setAlarmEndTime(this.closingTime);
+        send Pub.getClock().setAlarm(this.lastCall, Pub.TIME_LAST_CALL);
     }
     
     /**
@@ -78,7 +74,7 @@ public class Landlord extends ServicePerson {
             }
             // Someone ordered something. Serve the customer.
             [] void servingArea.order(cap void(Container) customer, Pub.Drink type)
-                    st (closingTime.length() == 0 || lastCall.length() == 0 || customerLeft.length() == 0) && this.serving
+                    st closingTime.length() == 0 && lastCall.length() == 0 && customerLeft.length() == 0 && this.serving
             {
                 System.out.println("Landlord: Received order of " + type + ". On it!");
                 Container drink = this.makeDrink(type);
@@ -121,7 +117,7 @@ public class Landlord extends ServicePerson {
         if (this.customers.size() == 0 && !this.serving) {
             System.out.println("Landlord: That's all of 'em.");
             call this.pub.getAssistant().finalRound();
-            send this.clock.shutdown();
+            send Pub.getClock().shutdown();
             this.running = false;
         }
     }
