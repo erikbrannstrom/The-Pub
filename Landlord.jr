@@ -54,10 +54,6 @@ public class Landlord extends ServicePerson {
                 System.out.println("Landlord: Look at the time! Barmaid go home.");
                 send this.pub.getBarmaid().leave();
                 this.serving = false;
-                System.out.println("Landlord: Time to go home, fellas!");
-                for (Customer c : this.customers) {
-                    send c.leave();
-                }
                 this.checkClosing();
             }
             // Customer left the pub. 

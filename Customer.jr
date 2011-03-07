@@ -28,7 +28,6 @@ public class Customer {
     public op void lastCall();
     public op void finishedDrink();
     public op void leftDrink();
-    public op void leave();
     private op void getOrder(Container);
     
     /** 
@@ -91,6 +90,7 @@ public class Customer {
             [] void getOrder(Container c) st this.running {
                 if (c == null) {
                     System.out.println("Customer " + this.id + ": Oh, that's to bad. Guess I'll head home.");
+                    this.running = false;
                     continue;
                 }
                 // Receive a container with their beverage of choice.
@@ -104,15 +104,6 @@ public class Customer {
             
                 // Set timer for drinking
                 send Pub.getClock().setAlarm(this.finishedDrink, new MyTime(0, 10, 0));
-            }
-            [] void leave() {
-                // Landlord tells customer to leave.
-                this.numDrinks = 0;
-                if(this.currentDrink == null) {
-                    // Customer had ordered but will have to come back another night.
-                    System.out.println("Customer " + this.id + ": Oh, no more drinking for me..");
-                    this.running = false;
-                }
             }
         }
         
