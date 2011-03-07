@@ -74,11 +74,16 @@ public class Landlord extends ServicePerson {
             }
             // Someone ordered something. Serve the customer.
             [] void servingArea.order(cap void(Container) customer, Pub.Drink type)
-                    st closingTime.length() == 0 && lastCall.length() == 0 && customerLeft.length() == 0 && this.serving
+                    st closingTime.length() == 0 && lastCall.length() == 0 && customerLeft.length() == 0
             {
-                System.out.println("Landlord: Received order of " + type + ". On it!");
-                Container drink = this.makeDrink(type);
-                send customer(drink);
+                if (this.serving) {
+                    System.out.println("Landlord: Received order of " + type + ". On it!");
+                    Container drink = this.makeDrink(type);
+                    send customer(drink);
+                } else {
+                    System.out.println("Landlord: Sorry, we're closed.");
+                    send customer(null);
+                }
             }
         }
         

@@ -89,15 +89,19 @@ public class Customer {
                 }
             }
             [] void getOrder(Container c) st this.running {
+                if (c == null) {
+                    System.out.println("Customer " + this.id + ": Oh, that's to bad. Guess I'll head home.");
+                    continue;
+                }
                 // Receive a container with their beverage of choice.
                 this.currentDrink = c;
                 this.numDrinks--;
-                
+            
                 // Send order time to statistics.
                 MyTime time = new MyTime(Pub.getClock().getTime().compareTo(this.orderTime));
                 System.out.println("Customer " + this.id + ": Thank you! I waited " + time + ".");
                 send this.stats(time);
-                
+            
                 // Set timer for drinking
                 send Pub.getClock().setAlarm(this.finishedDrink, new MyTime(0, 10, 0));
             }
